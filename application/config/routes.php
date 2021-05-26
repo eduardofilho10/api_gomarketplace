@@ -57,9 +57,14 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['show_product'] = 'Product/products';
 $route['create_product'] = 'Product/createProduct';
+$route['delete-product/(:num)'] = 'Product/deleteProduct/$1';
+$route['update-product/(:num)']= 'Product/updateProduct/$1';
+$route['update-product-disponivel-indisponisvel/(:num)']= 'Product/updateProductDisponsivelInds/$1';
+
+
 $route['get_product/(:num)'] = 'Product/getProduct/$1';
-$route['delete-product/delete/(:num)'] = 'Product/deleteProduct/$1';
+//$route['delete-product/(:num)'] = 'Product/deleteProduct/$1';
 $route['edit-product/edit/(:num)']= 'Product/getProduct/$1';
-$route['update-product/update/(:num)']= 'Product/updateProduct/$1';
+//$route['update-product/update/(:num)']= 'Product/updateProduct/$1';
 
 

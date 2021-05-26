@@ -50,16 +50,16 @@ class Product extends CI_Controller {
 
     if( ! empty($requestData)) {
 
-      $productName = $requestData['product_name'];
-      $productPrice = $requestData['product_price'];
-      $productDescription = $requestData['product_description'];
-     // $productImage = $requestData['product_image'];
+      $productName = $requestData['title'];
+      $productPrice = $requestData['price'];
+      $productImage = $requestData['image_url'];
+      $productavailable = 'true';
       
       $productData = array(
-        'product_name' => $productName,
-        'product_price' => $productPrice,
-        'product_description' => $productDescription,
-        //'product_image' =>$productImage
+        'title' => $productName,
+        'price' => $productPrice,
+        'image_url' => $productImage,
+        'available' =>$productavailable
       );
 
       $id = $this->Product_model->insert_product($productData);
@@ -91,16 +91,53 @@ class Product extends CI_Controller {
 
     if(!empty($requestData)) {
 
-      $productName = $requestData['product_name'];
-      $productPrice = $requestData['product_price'];
-      $productDescription = $requestData['product_description'];
-      $productImage = $requestData['product_image'];
+      $productName = $requestData['title'];
+      $productPrice = $requestData['price'];
+      $productImage = $requestData['image_url'];
+      
       
       $productData = array(
-        'product_name' => $productName,
-        'product_price' => $productPrice,
-        'product_description' => $productDescription,
-        'product_image' =>$productImage
+        'title' => $productName,
+        'price' => $productPrice,
+        'image_url' => $productImage
+        
+      );
+
+      $id = $this->Product_model->update_product($id, $productData);
+
+      $response = array(
+        'status' => 'success',
+        'message' => 'Product updated successfully.'
+      );
+    }
+    else {
+      $response = array(
+        'status' => 'error'
+      );
+    }
+
+    $this->output
+      ->set_content_type('application/json')
+      ->set_output(json_encode($response));
+  }
+  
+   public function updateProductDisponsivelInds($id)
+  { 
+    header("Content-type:application/json");
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+    header('Access-Control-Allow-Headers: token, Content-Type');
+
+    $requestData = json_decode(file_get_contents('php://input'), true);
+
+    if(!empty($requestData)) {
+
+       $productavailable = $requestData['switch'];
+      
+      
+      $productData = array(
+        'available' =>$productavailable
+        
       );
 
       $id = $this->Product_model->update_product($id, $productData);
@@ -127,8 +164,11 @@ class Product extends CI_Controller {
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
     header('Access-Control-Allow-Headers: token, Content-Type');
+	
+	
     
-    $product = $this->Product->delete_product($id);
+    $product = $this->Product_model->delete_product($id);
+	
     $response = array(
       'message' => 'Product deleted successfully.'
     );
